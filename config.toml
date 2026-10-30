@@ -1,0 +1,47 @@
+# TraceCompass V0.1 配置 —— 所有权重与阈值显式可查
+# 校验规则: interest_weights 求和 ≈ 1(容差 0.01);全部阈值为正;校验失败拒绝运行。
+
+[storage]
+# 相对路径基于本文件所在目录解析
+db_path = "data/psios.db"
+
+[models]
+# "none" = 本地降级路径(TF-IDF / 规则),不发起任何网络请求
+embedding = "none"
+llm = "none"
+
+[interest_weights]          # 进入加权和的 9 个分量(obligation 只用于分类,不进评分)
+frequency = 0.15
+recency = 0.10
+persistence = 0.20
+depth = 0.10
+return_rate = 0.15
+followup_density = 0.05
+project_conversion = 0.10
+connectivity = 0.05
+voluntary = 0.10
+
+[lifecycle]                 # 阈值单位: 天(比例除外),对应 inference-design.md §3/§2.1.1
+temporary_max_span = 14
+temporary_max_depth = 0.4
+emerging_window = 60
+emerging_min_persistence = 0.3
+dormant_min_gap = 90
+dormant_min_persistence = 0.5
+declining_window = 90
+declining_ratio = 0.3
+stable_min_months = 3
+stable_min_active_ratio = 0.25
+reactivated_recent_days = 30
+recency_half_life_days = 30
+session_gap_hours = 2
+
+[topics]                    # inference-design.md §1
+min_cluster_size = 8
+assign_threshold = 0.45     # embedding 向量
+tfidf_assign_threshold = 0.12  # TF-IDF 降级向量(相似度分布不同,阈值独立)
+merge_threshold = 0.85
+hierarchy_threshold = 0.5
+
+[confidence]                # inference-design.md §8
+evidence_saturation = 10

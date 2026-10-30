@@ -1,0 +1,6 @@
+include README.md LICENSE AUTHORS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md config.toml
+recursive-include docs *.md
+recursive-include scripts *.py
+recursive-include tests *.py
+global-exclude *.py[cod]
+global-exclude __pycache__

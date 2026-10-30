@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tracecompass"
+version = "0.1.0"
+description = "Local-first, evidence-linked analysis of personal conversations and interests"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE", "AUTHORS.md"]
+authors = [{name = "Aisiweiyang"}]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+tracecompass = "psios.cli:main"
+psios = "psios.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Aisiweiyang/TraceCompass"
+Issues = "https://github.com/Aisiweiyang/TraceCompass/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+psios = ["store/migrations/*.sql"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Keep test databases inside an ignored project-local directory.
+addopts = "--basetemp=.pytest_tmp"
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+explicit_package_bases = true
+files = ["src", "tests"]
+check_untyped_defs = true
